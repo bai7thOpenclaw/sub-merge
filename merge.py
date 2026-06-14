@@ -26,7 +26,7 @@ if not SUBSCRIPTION_URLS:
     raise RuntimeError(f"没有有效的订阅源，请检查 {SOURCES_FILE} 文件内容")
 # ====================================================================
 
-CHECK_TIMEOUT = 2          # TCP + TLS 握手超时（秒）
+CHECK_TIMEOUT = 5          # TCP + TLS 握手超时（秒）
 MAX_WORKERS = 50           # 并发线程数
 
 def extract_host_port(proxy_line: str):
