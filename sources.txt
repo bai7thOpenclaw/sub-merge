@@ -1,0 +1,17 @@
+# 每行一个订阅链接，以 # 开头的行是注释，会被忽略
+# 以下为推荐的公开订阅源（可根据需要增删）
+
+https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt
+https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2
+https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub
+https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt
+https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v2
+https://raw.githubusercontent.com/74647/Proxify/main/Sub/Base64.txt
+https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_list.txt
+https://raw.githubusercontent.com/erfanrashti/proxy_collector/main/sub/proxies.txt
+https://raw.githubusercontent.com/mheidari98/.proxy/main/sub.txt
+https://raw.githubusercontent.com/zhuifengshen/xray-collector/main/sub/sub.txt
+https://raw.githubusercontent.com/Elahe-dastan/proxy_scraper/main/sub/proxies.txt
+https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/main/nodes/yudou66.txt
+https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt
+https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt

@@ -2,24 +2,31 @@ import base64
 import requests
 import json
 import socket
+import ssl
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# ================= 10 个订阅地址（全部来自 GitHub 公开项目） =================
-SUBSCRIPTION_URLS = [
-    "https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt",
-    "https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2",
-    "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
-    "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt",
-    "https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v2",
-    "https://raw.githubusercontent.com/74647/Proxify/main/Sub/Base64.txt",
-    "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_list.txt",
-    "https://raw.githubusercontent.com/erfanrashti/proxy_collector/main/sub/proxies.txt",
-    "https://raw.githubusercontent.com/mheidari98/.proxy/main/sub.txt",
-    "https://raw.githubusercontent.com/zhuifengshen/xray-collector/main/sub/sub.txt",
-    "https://raw.githubusercontent.com/Elahe-dastan/proxy_scraper/main/sub/proxies.txt",
-]
+# ================= 从外部文件 sources.txt 读取订阅地址 =================
+SOURCES_FILE = "sources.txt"
 
-CHECK_TIMEOUT = 3          # TCP 超时（秒）
+def load_subscription_urls():
+    """读取 sources.txt，返回非空、非 # 开头的行列表"""
+    urls = []
+    try:
+        with open(SOURCES_FILE, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    urls.append(line)
+    except FileNotFoundError:
+        print(f"⚠️ 未找到 {SOURCES_FILE} 文件，请确保该文件存在于仓库根目录")
+    return urls
+
+SUBSCRIPTION_URLS = load_subscription_urls()
+if not SUBSCRIPTION_URLS:
+    raise RuntimeError(f"没有有效的订阅源，请检查 {SOURCES_FILE} 文件内容")
+# ====================================================================
+
+CHECK_TIMEOUT = 2          # TCP + TLS 握手超时（秒）
 MAX_WORKERS = 50           # 并发线程数
 
 def extract_host_port(proxy_line: str):
@@ -71,13 +78,22 @@ def extract_host_port(proxy_line: str):
     return None, None
 
 def tcp_check(host, port):
+    """TCP 连接测试，如果端口是 443 则额外进行 TLS 握手"""
     try:
         ip = socket.gethostbyname(host)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(CHECK_TIMEOUT)
-        result = sock.connect_ex((ip, port))
-        sock.close()
-        return result == 0
+        sock.connect((ip, port))
+
+        if port == 443 or "tls" in str(host).lower():
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+            with context.wrap_socket(sock, server_hostname=host) as tls_sock:
+                tls_sock.getpeername()
+        else:
+            sock.close()
+        return True
     except:
         return False
 
