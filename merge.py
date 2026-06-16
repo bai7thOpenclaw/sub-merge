@@ -31,7 +31,6 @@ CHECK_TIMEOUT = 5          # TCP + TLS 握手超时（秒）
 MAX_WORKERS = 50           # 并发线程数
 
 def extract_host_port(proxy_line: str):
-    """兼容原脚本，仅提取 host 和 port 用于健康检查"""
     if proxy_line.startswith("vmess://"):
         try:
             b64 = proxy_line[8:]
@@ -80,7 +79,6 @@ def extract_host_port(proxy_line: str):
     return None, None
 
 def tcp_check(host, port):
-    """TCP 连接测试，如果端口是 443 则额外进行 TLS 握手"""
     try:
         ip = socket.gethostbyname(host)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -105,15 +103,18 @@ def check_proxy_line(proxy_line):
         return False
     return tcp_check(host, port)
 
-# ================= 新增：将代理链接转换为 Clash proxy 条目 =================
+# ================= 修改：转换函数，增加空值回退 =================
 def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
-    """尝试将 vmess/trojan/vless/ss 链接转换为 Clash Meta 格式"""
     name = f"node_{index}"
     try:
         if proxy_line.startswith("vmess://"):
             b64 = proxy_line[8:]
             decoded = base64.b64decode(b64).decode('utf-8')
             cfg = json.loads(decoded)
+            # 处理 cipher：如果不存在或为空，设为 "auto"
+            cipher = cfg.get("scy", "auto")
+            if not cipher:
+                cipher = "auto"
             return {
                 "name": cfg.get("ps", name),
                 "type": "vmess",
@@ -121,13 +122,12 @@ def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
                 "port": int(cfg.get("port", 0)),
                 "uuid": cfg.get("id"),
                 "alterId": cfg.get("aid", 0),
-                "cipher": cfg.get("scy", "auto"),
+                "cipher": cipher,
                 "tls": cfg.get("tls", "") == "tls",
                 "skip-cert-verify": True,
                 "udp": True
             }
         elif proxy_line.startswith("trojan://"):
-            # trojan://password@host:port?allowInsecure=1#name
             parts = proxy_line[9:].split('@')
             password = parts[0]
             host_port_part = parts[1].split('?')[0].split('#')[0]
@@ -142,7 +142,6 @@ def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
                 "skip-cert-verify": True
             }
         elif proxy_line.startswith("vless://"):
-            # vless://uuid@host:port?encryption=none&security=tls&sni=xxx#name
             parts = proxy_line[8:].split('@')
             uuid = parts[0]
             host_part = parts[1].split('?')[0]
@@ -162,7 +161,6 @@ def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
                 "udp": True
             }
         elif proxy_line.startswith("ss://"):
-            # ss://method:password@host:port#name
             content = proxy_line[5:]
             if '@' in content:
                 method_pass, host_port = content.split('@')
@@ -188,7 +186,6 @@ def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
     return None
 
 def merge_subscriptions(urls):
-    # 1. 下载所有订阅，合并去重（与原逻辑相同）
     merged_lines = []
     for url in urls:
         try:
@@ -213,7 +210,6 @@ def merge_subscriptions(urls):
     merged_lines = list(dict.fromkeys(merged_lines))
     print(f"📦 合并去重后共 {len(merged_lines)} 条节点，开始健康检查...")
 
-    # 2. 并发健康检查
     valid_lines = []
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_line = {executor.submit(check_proxy_line, line): line for line in merged_lines}
@@ -229,7 +225,6 @@ def merge_subscriptions(urls):
 
     print(f"🎯 健康检查完成，有效节点 {len(valid_lines)} 条（共 {len(merged_lines)} 条）")
 
-    # 3. 转换为 Clash proxies 列表
     clash_proxies = []
     for idx, line in enumerate(valid_lines, start=1):
         proxy = convert_to_clash_proxy(line, idx)
@@ -238,7 +233,6 @@ def merge_subscriptions(urls):
 
     print(f"🔄 成功转换 {len(clash_proxies)} 条节点为 Clash 格式")
 
-    # 4. 构建完整 Clash 配置
     clash_config = {
         "port": 7890,
         "socks-port": 7891,
@@ -267,12 +261,10 @@ def merge_subscriptions(urls):
         ]
     }
 
-    # 5. 输出 YAML 文件
     with open("merged_clash.yml", "w", encoding="utf-8") as f:
         yaml.dump(clash_config, f, allow_unicode=True, sort_keys=False)
     print(f"🎉 Clash 配置文件已生成: merged_clash.yml (含 {len(clash_proxies)} 条有效节点)")
 
-    # 可选：同时保留原 Base64 格式
     merged_text = "\n".join(valid_lines)
     merged_b64 = base64.b64encode(merged_text.encode()).decode()
     with open("merged_sub.txt", "w") as f:
