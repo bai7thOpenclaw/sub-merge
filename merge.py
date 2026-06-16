@@ -103,20 +103,19 @@ def check_proxy_line(proxy_line):
         return False
     return tcp_check(host, port)
 
-# ================= 修改：转换函数，增加空值回退 =================
 def convert_to_clash_proxy(proxy_line: str, index: int) -> dict:
+    # 强制唯一名称：node_<index>
     name = f"node_{index}"
     try:
         if proxy_line.startswith("vmess://"):
             b64 = proxy_line[8:]
             decoded = base64.b64decode(b64).decode('utf-8')
             cfg = json.loads(decoded)
-            # 处理 cipher：如果不存在或为空，设为 "auto"
             cipher = cfg.get("scy", "auto")
             if not cipher:
                 cipher = "auto"
             return {
-                "name": cfg.get("ps", name),
+                "name": name,                              # 唯一名称
                 "type": "vmess",
                 "server": cfg.get("add"),
                 "port": int(cfg.get("port", 0)),
@@ -233,33 +232,48 @@ def merge_subscriptions(urls):
 
     print(f"🔄 成功转换 {len(clash_proxies)} 条节点为 Clash 格式")
 
-    clash_config = {
-        "port": 7890,
-        "socks-port": 7891,
-        "allow-lan": False,
-        "mode": "rule",
-        "log-level": "info",
-        "external-controller": "127.0.0.1:9090",
-        "proxies": clash_proxies,
-        "proxy-groups": [
-            {
-                "name": "🚀 自动选择",
-                "type": "url-test",
-                "url": "http://www.gstatic.com/generate_204",
-                "interval": 300,
-                "tolerance": 150,
-                "proxies": [p["name"] for p in clash_proxies]
-            },
-            {
-                "name": "🌍 手动选择",
-                "type": "select",
-                "proxies": [p["name"] for p in clash_proxies]
-            }
-        ],
-        "rules": [
-            "MATCH,🚀 自动选择"
-        ]
-    }
+    # 如果没有有效节点，生成一个空的配置，避免客户端报错
+    if not clash_proxies:
+        print("⚠️ 没有有效节点，生成空配置")
+        clash_config = {
+            "port": 7890,
+            "socks-port": 7891,
+            "allow-lan": False,
+            "mode": "rule",
+            "log-level": "info",
+            "external-controller": "127.0.0.1:9090",
+            "proxies": [],
+            "proxy-groups": [],
+            "rules": ["MATCH,DIRECT"]
+        }
+    else:
+        clash_config = {
+            "port": 7890,
+            "socks-port": 7891,
+            "allow-lan": False,
+            "mode": "rule",
+            "log-level": "info",
+            "external-controller": "127.0.0.1:9090",
+            "proxies": clash_proxies,
+            "proxy-groups": [
+                {
+                    "name": "🚀 自动选择",
+                    "type": "url-test",
+                    "url": "http://www.gstatic.com/generate_204",
+                    "interval": 300,
+                    "tolerance": 150,
+                    "proxies": [p["name"] for p in clash_proxies]
+                },
+                {
+                    "name": "🌍 手动选择",
+                    "type": "select",
+                    "proxies": [p["name"] for p in clash_proxies]
+                }
+            ],
+            "rules": [
+                "MATCH,🚀 自动选择"
+            ]
+        }
 
     with open("merged_clash.yml", "w", encoding="utf-8") as f:
         yaml.dump(clash_config, f, allow_unicode=True, sort_keys=False)
