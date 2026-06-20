@@ -27,10 +27,9 @@ if not SUBSCRIPTION_URLS:
     raise RuntimeError(f"没有有效的订阅源，请检查 {SOURCES_FILE} 文件内容")
 # ====================================================================
 
-CHECK_TIMEOUT = 5          # TCP 握手超时（秒）
-MAX_WORKERS = 50           # 并发线程数
+CHECK_TIMEOUT = 5
+MAX_WORKERS = 50
 
-# ---------- 健康检查函数 ----------
 def tcp_check(host, port):
     try:
         ip = socket.gethostbyname(host)
@@ -53,10 +52,8 @@ def is_proxy_alive(proxy_obj):
         return False
     return tcp_check(server, port)
 
-# ---------- 解析订阅内容 ----------
 def parse_subscription_content(content, url):
     proxies = []
-    # 1. 尝试 Base64 解码
     try:
         decoded = base64.b64decode(content).decode('utf-8')
         if any(decoded.startswith(p) for p in ['vmess://', 'trojan://', 'vless://', 'ss://', 'hysteria2://']):
@@ -73,7 +70,6 @@ def parse_subscription_content(content, url):
     except:
         pass
 
-    # 2. 尝试 YAML 解析
     try:
         data = yaml.safe_load(content)
         if data and isinstance(data, dict) and 'proxies' in data:
@@ -85,7 +81,6 @@ def parse_subscription_content(content, url):
     except:
         pass
 
-    # 3. 按行解析
     lines = content.splitlines()
     for line in lines:
         line = line.strip()
@@ -99,7 +94,6 @@ def parse_subscription_content(content, url):
         print(f"⚠️ 从 {url} 未解析到任何节点")
     return proxies
 
-# ---------- URL 转 Clash 代理对象 ----------
 def convert_url_to_clash(proxy_line: str) -> dict:
     try:
         if proxy_line.startswith("vmess://"):
@@ -222,7 +216,6 @@ def convert_url_to_clash(proxy_line: str) -> dict:
     except Exception:
         return None
 
-# ---------- 去重 ----------
 def proxy_key(proxy):
     t = proxy.get('type')
     if t == 'vmess':
@@ -248,7 +241,6 @@ def deduplicate_proxies(proxies):
             unique.append(p)
     return unique
 
-# ---------- 主合并函数 ----------
 def merge_subscriptions(urls):
     all_proxies = []
     for url in urls:
@@ -284,13 +276,11 @@ def merge_subscriptions(urls):
 
     print(f"🎯 健康检查完成，有效节点 {len(valid_proxies)} 条（共 {len(all_proxies)} 条）")
 
-    # 重命名节点
     for idx, p in enumerate(valid_proxies, 1):
         p['name'] = f"node_{idx}"
 
     proxy_names = [p["name"] for p in valid_proxies]
 
-    # ---------- 构建 Clash 配置（内置规则集 + GeoIP） ----------
     clash_config = {
         "port": 7890,
         "socks-port": 7891,
@@ -314,7 +304,6 @@ def merge_subscriptions(urls):
                 "proxies": proxy_names
             }
         ],
-        # ========== 新增：内置 rule-providers ==========
         "rule-providers": {
             "reject": {
                 "type": "http",
@@ -373,21 +362,19 @@ def merge_subscriptions(urls):
                 "interval": 86400
             }
         },
-        # ========== 新增：规则列表（使用 prepend-rules 或直接 rules） ==========
-        # Clash Meta 支持 prepend-rules，但为了兼容性，直接放在 rules 最前面
+        # ========== 修正：将 PROXY 改为现有策略组 "🚀 自动选择" ==========
         "rules": [
             "RULE-SET,private,DIRECT",
             "RULE-SET,reject,REJECT",
             "RULE-SET,apple,DIRECT",
             "RULE-SET,direct,DIRECT",
-            "RULE-SET,proxy,PROXY",
+            "RULE-SET,proxy,🚀 自动选择",          # 原为 PROXY
             "RULE-SET,cncidr,DIRECT",
-            "RULE-SET,telegramcidr,PROXY",
+            "RULE-SET,telegramcidr,🚀 自动选择",   # 原为 PROXY
             "RULE-SET,lancidr,DIRECT",
             "GEOIP,CN,DIRECT",
-            "MATCH,PROXY"
+            "MATCH,🚀 自动选择"                    # 原为 PROXY
         ],
-        # ========== 新增：GeoIP 自动更新 ==========
         "geodata": {
             "mode": True,
             "url": {
@@ -403,7 +390,6 @@ def merge_subscriptions(urls):
         yaml.dump(clash_config, f, allow_unicode=True, sort_keys=False)
     print(f"🎉 Clash 配置文件已生成: merged_clash.yml (含 {len(valid_proxies)} 条有效节点，内置规则集)")
 
-    # 生成 Base64 备用
     base64_lines = [f"{p.get('server', 'unknown')}:{p.get('port', 'unknown')}" for p in valid_proxies]
     base64_content = "\n".join(base64_lines)
     base64_encoded = base64.b64encode(base64_content.encode()).decode()
