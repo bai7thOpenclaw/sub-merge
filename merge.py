@@ -4,9 +4,8 @@ import json
 import socket
 import ssl
 import yaml
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import hashlib
 
 # ================= 从外部文件 sources.txt 读取订阅地址 =================
 SOURCES_FILE = "sources.txt"
@@ -31,9 +30,8 @@ if not SUBSCRIPTION_URLS:
 CHECK_TIMEOUT = 5          # TCP 握手超时（秒）
 MAX_WORKERS = 50           # 并发线程数
 
-# ---------- 健康检查函数（修改为仅 TCP 握手） ----------
+# ---------- 健康检查函数 ----------
 def tcp_check(host, port):
-    """仅做 TCP 连接测试，不做 TLS 握手（避免误判）"""
     try:
         ip = socket.gethostbyname(host)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,7 +43,6 @@ def tcp_check(host, port):
         return False
 
 def is_proxy_alive(proxy_obj):
-    """从代理对象中提取 server 和 port 进行健康检查"""
     server = proxy_obj.get('server')
     port = proxy_obj.get('port')
     if not server or not port:
@@ -58,19 +55,10 @@ def is_proxy_alive(proxy_obj):
 
 # ---------- 解析订阅内容 ----------
 def parse_subscription_content(content, url):
-    """
-    尝试解析订阅内容，返回代理对象列表（字典）
-    支持格式：
-      - Base64 编码的节点 URL 列表（每行一个 vmess:// 等）
-      - 纯文本节点 URL 列表
-      - YAML 格式的 Clash 配置（提取 proxies 字段）
-    """
     proxies = []
-
     # 1. 尝试 Base64 解码
     try:
         decoded = base64.b64decode(content).decode('utf-8')
-        # 检查解码后是否包含常见的代理 URL 前缀
         if any(decoded.startswith(p) for p in ['vmess://', 'trojan://', 'vless://', 'ss://', 'hysteria2://']):
             lines = decoded.splitlines()
             for line in lines:
@@ -91,14 +79,13 @@ def parse_subscription_content(content, url):
         if data and isinstance(data, dict) and 'proxies' in data:
             proxy_list = data['proxies']
             if isinstance(proxy_list, list):
-                # 直接使用原始代理对象（保留所有字段）
                 proxies = proxy_list
                 print(f"✅ 从 {url} 解析到 {len(proxies)} 条节点（YAML格式）")
                 return proxies
     except:
         pass
 
-    # 3. 按行解析（认为是 URL 列表）
+    # 3. 按行解析
     lines = content.splitlines()
     for line in lines:
         line = line.strip()
@@ -114,7 +101,6 @@ def parse_subscription_content(content, url):
 
 # ---------- URL 转 Clash 代理对象 ----------
 def convert_url_to_clash(proxy_line: str) -> dict:
-    """将 vmess:// / trojan:// / vless:// / ss:// / hysteria2:// 转换为 Clash 代理对象"""
     try:
         if proxy_line.startswith("vmess://"):
             b64 = proxy_line[8:]
@@ -137,12 +123,10 @@ def convert_url_to_clash(proxy_line: str) -> dict:
                 "skip-cert-verify": True,
                 "udp": True
             }
-            # 处理 ws 等额外选项（如果有）
             if network == "ws" and "path" in cfg:
                 proxy["ws-opts"] = {"path": cfg.get("path", "/")}
             if network == "grpc" and "serviceName" in cfg:
                 proxy["grpc-opts"] = {"grpc-service-name": cfg.get("serviceName")}
-            # 去除可能为 None 的字段
             proxy = {k: v for k, v in proxy.items() if v is not None}
             return proxy
 
@@ -233,27 +217,26 @@ def convert_url_to_clash(proxy_line: str) -> dict:
                 "udp": True
             }
             return proxy
-
         else:
             return None
-    except Exception as e:
+    except Exception:
         return None
 
-# ---------- 去重函数 ----------
+# ---------- 去重 ----------
 def proxy_key(proxy):
-    """生成代理对象的唯一键（基于 server, port, type, 以及关键凭证）"""
-    if proxy.get('type') == 'vmess':
+    t = proxy.get('type')
+    if t == 'vmess':
         return (proxy.get('server'), proxy.get('port'), proxy.get('uuid'))
-    elif proxy.get('type') == 'trojan':
+    elif t == 'trojan':
         return (proxy.get('server'), proxy.get('port'), proxy.get('password'))
-    elif proxy.get('type') == 'vless':
+    elif t == 'vless':
         return (proxy.get('server'), proxy.get('port'), proxy.get('uuid'))
-    elif proxy.get('type') == 'ss':
+    elif t == 'ss':
         return (proxy.get('server'), proxy.get('port'), proxy.get('password'))
-    elif proxy.get('type') == 'hysteria2':
+    elif t == 'hysteria2':
         return (proxy.get('server'), proxy.get('port'), proxy.get('password'))
     else:
-        return (proxy.get('server'), proxy.get('port'), proxy.get('type'))
+        return (proxy.get('server'), proxy.get('port'), t)
 
 def deduplicate_proxies(proxies):
     seen = set()
@@ -268,7 +251,6 @@ def deduplicate_proxies(proxies):
 # ---------- 主合并函数 ----------
 def merge_subscriptions(urls):
     all_proxies = []
-
     for url in urls:
         try:
             resp = requests.get(url, timeout=15)
@@ -302,59 +284,127 @@ def merge_subscriptions(urls):
 
     print(f"🎯 健康检查完成，有效节点 {len(valid_proxies)} 条（共 {len(all_proxies)} 条）")
 
+    # 重命名节点
     for idx, p in enumerate(valid_proxies, 1):
         p['name'] = f"node_{idx}"
 
-    if not valid_proxies:
-        print("⚠️ 没有有效节点，生成空配置")
-        clash_config = {
-            "port": 7890,
-            "socks-port": 7891,
-            "allow-lan": False,
-            "mode": "rule",
-            "log-level": "info",
-            "external-controller": "127.0.0.1:9090",
-            "proxies": [],
-            "proxy-groups": [],
-            "rules": ["MATCH,DIRECT"]
+    proxy_names = [p["name"] for p in valid_proxies]
+
+    # ---------- 构建 Clash 配置（内置规则集 + GeoIP） ----------
+    clash_config = {
+        "port": 7890,
+        "socks-port": 7891,
+        "allow-lan": False,
+        "mode": "rule",
+        "log-level": "info",
+        "external-controller": "127.0.0.1:9090",
+        "proxies": valid_proxies,
+        "proxy-groups": [
+            {
+                "name": "🚀 自动选择",
+                "type": "url-test",
+                "url": "http://www.gstatic.com/generate_204",
+                "interval": 300,
+                "tolerance": 150,
+                "proxies": proxy_names
+            },
+            {
+                "name": "🌍 手动选择",
+                "type": "select",
+                "proxies": proxy_names
+            }
+        ],
+        # ========== 新增：内置 rule-providers ==========
+        "rule-providers": {
+            "reject": {
+                "type": "http",
+                "behavior": "domain",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt",
+                "path": "./ruleset/reject.yaml",
+                "interval": 86400
+            },
+            "proxy": {
+                "type": "http",
+                "behavior": "domain",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt",
+                "path": "./ruleset/proxy.yaml",
+                "interval": 86400
+            },
+            "direct": {
+                "type": "http",
+                "behavior": "domain",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt",
+                "path": "./ruleset/direct.yaml",
+                "interval": 86400
+            },
+            "private": {
+                "type": "http",
+                "behavior": "domain",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt",
+                "path": "./ruleset/private.yaml",
+                "interval": 86400
+            },
+            "apple": {
+                "type": "http",
+                "behavior": "domain",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt",
+                "path": "./ruleset/apple.yaml",
+                "interval": 86400
+            },
+            "lancidr": {
+                "type": "http",
+                "behavior": "ipcidr",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt",
+                "path": "./ruleset/lancidr.yaml",
+                "interval": 86400
+            },
+            "cncidr": {
+                "type": "http",
+                "behavior": "ipcidr",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt",
+                "path": "./ruleset/cncidr.yaml",
+                "interval": 86400
+            },
+            "telegramcidr": {
+                "type": "http",
+                "behavior": "ipcidr",
+                "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt",
+                "path": "./ruleset/telegramcidr.yaml",
+                "interval": 86400
+            }
+        },
+        # ========== 新增：规则列表（使用 prepend-rules 或直接 rules） ==========
+        # Clash Meta 支持 prepend-rules，但为了兼容性，直接放在 rules 最前面
+        "rules": [
+            "RULE-SET,private,DIRECT",
+            "RULE-SET,reject,REJECT",
+            "RULE-SET,apple,DIRECT",
+            "RULE-SET,direct,DIRECT",
+            "RULE-SET,proxy,PROXY",
+            "RULE-SET,cncidr,DIRECT",
+            "RULE-SET,telegramcidr,PROXY",
+            "RULE-SET,lancidr,DIRECT",
+            "GEOIP,CN,DIRECT",
+            "MATCH,PROXY"
+        ],
+        # ========== 新增：GeoIP 自动更新 ==========
+        "geodata": {
+            "mode": True,
+            "url": {
+                "geoip": "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat",
+                "geosite": "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+            },
+            "auto-update": True,
+            "update-interval": 24
         }
-    else:
-        proxy_names = [p["name"] for p in valid_proxies]
-        clash_config = {
-            "port": 7890,
-            "socks-port": 7891,
-            "allow-lan": False,
-            "mode": "rule",
-            "log-level": "info",
-            "external-controller": "127.0.0.1:9090",
-            "proxies": valid_proxies,
-            "proxy-groups": [
-                {
-                    "name": "🚀 自动选择",
-                    "type": "url-test",
-                    "url": "http://www.gstatic.com/generate_204",
-                    "interval": 300,
-                    "tolerance": 150,
-                    "proxies": proxy_names
-                },
-                {
-                    "name": "🌍 手动选择",
-                    "type": "select",
-                    "proxies": proxy_names
-                }
-            ],
-            "rules": [
-                "MATCH,🚀 自动选择"
-            ]
-        }
+    }
 
     with open("merged_clash.yml", "w", encoding="utf-8") as f:
         yaml.dump(clash_config, f, allow_unicode=True, sort_keys=False)
-    print(f"🎉 Clash 配置文件已生成: merged_clash.yml (含 {len(valid_proxies)} 条有效节点)")
+    print(f"🎉 Clash 配置文件已生成: merged_clash.yml (含 {len(valid_proxies)} 条有效节点，内置规则集)")
 
-    base64_lines = []
-    for p in valid_proxies:
-        base64_lines.append(f"{p.get('server', 'unknown')}:{p.get('port', 'unknown')}")
+    # 生成 Base64 备用
+    base64_lines = [f"{p.get('server', 'unknown')}:{p.get('port', 'unknown')}" for p in valid_proxies]
     base64_content = "\n".join(base64_lines)
     base64_encoded = base64.b64encode(base64_content.encode()).decode()
     with open("merged_sub.txt", "w") as f:
