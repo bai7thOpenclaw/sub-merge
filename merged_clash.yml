@@ -6,35 +6,6 @@ log-level: info
 external-controller: 127.0.0.1:9090
 proxies:
 - name: node_1
-  type: vless
-  server: 172.67.133.44
-  port: 2086
-  uuid: af19ce98-b58b-43ef-9f0d-2ae6343e28fe
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_2
-  type: vless
-  server: 139.64.235.174
-  port: 443
-  uuid: b09dfed1-90fa-4353-8bdf-de1edb2e2d79
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: nb.lovecf.ggff.net
-- name: node_3
-  type: trojan
-  server: 172.67.149.60
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_4
   type: trojan
   server: 167.82.76.7
   port: 443
@@ -42,61 +13,82 @@ proxies:
   udp: true
   skip-cert-verify: true
   sni: ssl.fastly.com
-- name: node_5
+- name: node_2
+  type: trojan
+  server: 104.21.8.107
+  port: 443
+  password: humanity
+  udp: true
+  skip-cert-verify: true
+  sni: www.ignitelimit.com
+- name: node_3
+  type: trojan
+  server: 165.215.250.14
+  port: 443
+  password: humanity
+  udp: true
+  skip-cert-verify: true
+  sni: www.ignitelimit.com
+- name: node_4
   type: vless
-  server: 172.66.170.53
-  port: 8880
-  uuid: 38ede46b-d237-4c76-9de1-a10738642adc
+  server: 104.21.53.114
+  port: 443
+  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
   encryption: none
   flow: ''
-  tls: false
+  tls: true
   skip-cert-verify: true
   udp: true
+  sni: 4-m20.20260721-b3fa-439e-b14e-6e2ee3f22b8c.ccwu.cc
+- name: node_5
+  type: trojan
+  server: 172.67.221.242
+  port: 443
+  password: humanity
+  udp: true
+  skip-cert-verify: true
+  sni: www.ignitelimit.com
 - name: node_6
   type: trojan
-  server: 172.67.74.2
+  server: 188.114.97.7
   port: 443
   password: humanity
   udp: true
   skip-cert-verify: true
   sni: www.ignitelimit.com
 - name: node_7
-  type: vless
-  server: www.glassdoor.com
-  port: 8880
-  uuid: 5fc8a5e4-d0c5-4ad2-8bfe-db589553c6c1
-  encryption: none
-  flow: ''
+  type: trojan
+  server: 104.18.23.63
+  port: 443
+  password: humanity
+  udp: true
+  skip-cert-verify: true
+  sni: www.ignitelimit.com
+- name: node_8
+  type: vmess
+  server: 67.220.85.46
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: '0'
+  cipher: auto
+  network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_8
-  type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: cfvvv-ev1.pages.dev
 - name: node_9
   type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
+  server: 216.106.183.35
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: '1'
   cipher: auto
-  network: ws
-  tls: true
+  network: tcp
+  tls: false
   skip-cert-verify: true
   udp: true
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
 - name: node_10
   type: vless
-  server: 104.16.10.233
+  server: 104.16.3.214
   port: 443
   uuid: 44eae030-290b-4083-8102-6f8bab05701b
   encryption: none
@@ -118,57 +110,18 @@ proxies:
   udp: true
 - name: node_12
   type: vmess
-  server: 82.198.246.97
-  port: 180
-  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_13
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_14
-  type: vmess
-  server: 82.198.246.250
-  port: 180
-  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_15
-  type: vmess
-  server: 216.106.183.35
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: '1'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_16
-  type: trojan
-  server: 43.173.90.202
+  server: www.shopify.com
   port: 443
-  password: sg-trojan-2026
-  udp: true
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
   skip-cert-verify: true
-  sni: sg-proxy.local
-- name: node_17
+  udp: true
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+- name: node_13
   type: vmess
   server: 38.110.1.246
   port: 18000
@@ -179,18 +132,7 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_18
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_19
+- name: node_14
   type: vmess
   server: 38.91.107.49
   port: 18000
@@ -201,18 +143,29 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_20
+- name: node_15
   type: vmess
-  server: 216.106.185.141
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  server: 169.197.142.22
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
   alterId: '0'
   cipher: auto
   network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_21
+- name: node_16
+  type: vmess
+  server: 84.17.41.2
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_17
   type: vmess
   server: 129.146.77.248
   port: 39495
@@ -225,25 +178,29 @@ proxies:
   udp: true
   ws-opts:
     path: /cctv13.m3u8
-- name: node_22
+- name: node_18
   type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  server: 82.198.246.250
+  port: 180
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
   alterId: '0'
   cipher: auto
   network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_23
-  type: ss
-  server: 107.174.88.128
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  password: 063aee2ed1124285b5d8a8b049e24cba
+- name: node_19
+  type: vmess
+  server: 82.198.246.97
+  port: 180
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
   udp: true
-- name: node_24
+- name: node_20
   type: vmess
   server: 57.129.132.223
   port: 80
@@ -256,7 +213,7 @@ proxies:
   udp: true
   ws-opts:
     path: /vmess/
-- name: node_25
+- name: node_21
   type: vless
   server: 72.56.41.33
   port: 40443
@@ -267,37 +224,18 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: deepl.com
-- name: node_26
-  type: trojan
-  server: 88.198.82.150
+- name: node_22
+  type: vless
+  server: 34.155.10.226
   port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_27
-  type: vmess
-  server: 45.32.57.118
-  port: 4433
-  uuid: 35b89832-0a7c-48dd-8d1c-a2891b522195
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
+  uuid: d619964d-26d6-452d-9860-6f058f03ba8e
+  encryption: none
+  flow: ''
+  tls: true
   skip-cert-verify: true
   udp: true
-- name: node_28
-  type: vmess
-  server: 168.110.60.104
-  port: 18112
-  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_29
+  sni: www.cloudflare.com
+- name: node_23
   type: vless
   server: 2.59.134.226
   port: 443
@@ -308,18 +246,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: rich-falcon.cdn.cachefleet.com
-- name: node_30
-  type: vless
-  server: 34.175.44.113
-  port: 443
-  uuid: 0b4b1548-c7ca-45a5-9096-6c3cc4b1c43b
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: www.cloudflare.com
-- name: node_31
+- name: node_24
   type: vless
   server: 195.123.212.60
   port: 15392
@@ -330,18 +257,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: intel.com
-- name: node_32
-  type: vmess
-  server: 140.238.2.250
-  port: 443
-  uuid: 41a7089a-040b-4538-8b8d-010902405bde
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_33
+- name: node_25
   type: vless
   server: 13.143.137.164
   port: 9443
@@ -352,9 +268,74 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: plaincanvas.videoclothing.xyz
-- name: node_34
+- name: node_26
+  type: vmess
+  server: 168.110.60.104
+  port: 18112
+  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_27
+  type: trojan
+  server: www.speedtest.org
+  port: 443
+  password: humanity
+  udp: true
+  skip-cert-verify: true
+  sni: www.ignitelimit.com
+- name: node_28
   type: vless
-  server: srv-waw.kintecolas.com
+  server: 176.109.104.195
+  port: 9873
+  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: dl.google.com
+- name: node_29
+  type: vmess
+  server: 45.32.57.118
+  port: 4433
+  uuid: 35b89832-0a7c-48dd-8d1c-a2891b522195
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_30
+  type: vmess
+  server: oc.imfun.fun
+  port: 18112
+  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_31
+  type: vmess
+  server: 168.138.43.75
+  port: 80
+  uuid: 11c3627f-31e8-4695-dfbd-34076e2f1f5d
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /cctv13.m3u8
+- name: node_32
+  type: vless
+  server: edge6.multikons.shop
   port: 443
   uuid: 4f8a1d19-4d21-47f5-816e-a8f475fbd3f7
   encryption: none
@@ -362,10 +343,32 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: srv-waw.kintecolas.com
+  sni: edge6.multikons.shop
+- name: node_33
+  type: vless
+  server: 34.19.91.203
+  port: 443
+  uuid: 9d0395c0-016f-453e-b0be-fc66f1ee1d80
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: www.cloudflare.com
+- name: node_34
+  type: vmess
+  server: ww11.levikogjgfdd.ir
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: '0'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: node_35
   type: vmess
-  server: nycqg19zkwacpm1b.v.3dns.vip
+  server: vah4urdzl3jdx5r2.v.3dns.vip
   port: 443
   uuid: f23bb427c1f94373876c2f43e9f790f3
   alterId: '0'
@@ -377,18 +380,16 @@ proxies:
   ws-opts:
     path: /ws-vmess
 - name: node_36
-  type: vmess
-  server: ejomsxptp19apygl.v.3dns.vip
-  port: 443
-  uuid: f23bb427c1f94373876c2f43e9f790f3
-  alterId: '0'
-  cipher: auto
-  network: ws
+  type: vless
+  server: lyra.yokkastars.com
+  port: 40443
+  uuid: 5be7fb02-b6a5-450f-b041-3243b98e8420
+  encryption: none
+  flow: xtls-rprx-vision
   tls: true
   skip-cert-verify: true
   udp: true
-  ws-opts:
-    path: /ws-vmess
+  sni: deepl.com
 - name: node_37
   type: vmess
   server: lcv8v9l7oyamxxfz.v.3dns.vip
@@ -404,7 +405,7 @@ proxies:
     path: /ws-vmess
 - name: node_38
   type: vmess
-  server: 93ucrn4i0pffuabk.v.3dns.vip
+  server: ejomsxptp19apygl.v.3dns.vip
   port: 443
   uuid: f23bb427c1f94373876c2f43e9f790f3
   alterId: '0'
@@ -417,247 +418,16 @@ proxies:
     path: /ws-vmess
 - name: node_39
   type: vmess
-  server: nycqg19zkwacpm1b.v.3dns.vip
-  port: 443
-  uuid: f23bb427-c1f9-4373-876c-2f43e9f790f3
-  alterId: '0'
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
   cipher: auto
-  network: ws
-  tls: true
+  network: tcp
+  tls: false
   skip-cert-verify: true
   udp: true
-  ws-opts:
-    path: /ws-vmess
 - name: node_40
-  type: vmess
-  server: vah4urdzl3jdx5r2.v.3dns.vip
-  port: 443
-  uuid: f23bb427c1f94373876c2f43e9f790f3
-  alterId: '0'
-  cipher: auto
-  network: ws
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  ws-opts:
-    path: /ws-vmess
-- name: node_41
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_42
-  type: vless
-  server: edge6.multikons.shop
-  port: 443
-  uuid: 4f8a1d19-4d21-47f5-816e-a8f475fbd3f7
-  encryption: none
-  flow: xtls-rprx-vision
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: edge6.multikons.shop
-- name: node_43
-  type: hysteria2
-  server: starlink-ft.251313.xyz
-  port: 443
-  password: https//xship.2fa.cat
-  sni: xship.top#🇺🇸_US_美国
-  skip-cert-verify: false
-  udp: true
-- name: node_44
-  type: hysteria2
-  server: 31.76.80.69
-  port: 443
-  password: 6aab8efdf13945829ae3699c342be406
-  sni: fiproxy1.lockdwn.com
-  skip-cert-verify: false
-  udp: true
-- name: node_45
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_46
-  type: vmess
-  server: ww11.levikogjgfdd.ir
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_47
-  type: vmess
-  server: oc.imfun.fun
-  port: 18112
-  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_48
-  type: hysteria2
-  server: 77.110.96.201
-  port: 443
-  password: Telegram
-  sni: se.vpnjey2.dpdns.org
-  skip-cert-verify: false
-  udp: true
-- name: node_49
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_50
-  type: hysteria2
-  server: 162.249.125.133
-  port: 443
-  password: QCgqi_I4EkV8UR-OgQ_tG4EnVTEVvIyR2GgRBzrIn2s
-  sni: hy2-new.aspidnet.xyz
-  skip-cert-verify: false
-  udp: true
-- name: node_51
-  type: hysteria2
-  server: gta.internet-card.sbs
-  port: 443
-  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
-  sni: gta.internet-card.sbs#🇷🇺_RU_俄罗斯->🇩🇪_DE_德国
-  skip-cert-verify: false
-  udp: true
-- name: node_52
-  type: hysteria2
-  server: 130.49.161.70
-  port: 443
-  password: p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR
-  sni: hy2.aspidnet.xyz
-  skip-cert-verify: false
-  udp: true
-- name: node_53
-  type: hysteria2
-  server: 2.27.249.79
-  port: 443
-  password: cd74c0a406664a5bc0bac098220a2468
-  sni: nl1.sferavpn.pro
-  skip-cert-verify: false
-  udp: true
-- name: node_54
-  type: hysteria2
-  server: 2.27.59.206
-  port: 443
-  password: cd74c0a406664a5bc0bac098220a2468
-  sni: de1.sferavpn.pro
-  skip-cert-verify: false
-  udp: true
-- name: node_55
-  type: hysteria2
-  server: 144.31.49.138
-  port: 443
-  password: cd74c0a406664a5bc0bac098220a2468
-  sni: ru1.sferavpn.pro
-  skip-cert-verify: false
-  udp: true
-- name: node_56
-  type: vless
-  server: 162.159.45.19
-  port: 80
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: node_57
-  type: vless
-  server: 69.46.46.4
-  port: 443
-  uuid: Soliconf
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: slvpanel-production-5f5f.up.railway.app
-- name: node_58
-  type: vless
-  server: 104.21.90.161
-  port: 443
-  uuid: a90c264d-3853-4eef-9a3d-628b2d02d15e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 3-M19.pERu-line.CCWu.cC
-- name: node_59
-  type: trojan
-  server: 100.42.228.109
-  port: 443
-  password: BxceQaOe
-  udp: true
-  skip-cert-verify: true
-  sni: t.me/ripaojiedian
-- name: node_60
-  type: hysteria2
-  server: assets.gateway-stream.com
-  port: 52021
-  password: xbr3ppxk7rv068c4
-  sni: assets.gateway-stream.com
-  skip-cert-verify: false
-  udp: true
-- name: node_61
-  type: hysteria2
-  server: assets.gateway-stream.com
-  port: 52023
-  password: xbr3ppxk7rv068c4
-  sni: assets.gateway-stream.com
-  skip-cert-verify: false
-  udp: true
-- name: node_62
-  type: vless
-  server: www.whatismyip.net
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_63
-  type: vless
-  server: 104.21.86.179
-  port: 443
-  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 5-M17.jOrDan-LINK.KDnS.fR
-- name: node_64
   type: vmess
   server: 6jdvarazgu3qqr6q.v.3dns.vip
   port: 443
@@ -670,84 +440,149 @@ proxies:
   udp: true
   ws-opts:
     path: /ws-vmess
-- name: node_65
-  type: vless
-  server: 153.76.122.179
-  port: 443
-  uuid: 2188aab7-2881-4255-bd66-b592b5e072d5
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: help.steampowered.com
-- name: node_66
-  type: vless
-  server: 188.166.49.168
-  port: 2083
-  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: cdn8848.776676.xyz
-- name: node_67
-  type: vless
-  server: 206.251.53.91
-  port: 8443
-  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: cdn8848.776676.xyz
-- name: node_68
-  type: vless
-  server: 185.126.67.60
-  port: 443
-  uuid: 8ff62004-b728-4be5-b7e9-5f5c85489921
-  encryption: none
-  flow: xtls-rprx-vision-udp443
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: www.vk.com
-- name: node_69
+- name: node_41
   type: vmess
-  server: 80.93.217.193
-  port: 2083
-  uuid: b4904296-5df5-430c-9849-22bef703174c
-  alterId: 0
+  server: nycqg19zkwacpm1b.v.3dns.vip
+  port: 443
+  uuid: f23bb427-c1f9-4373-876c-2f43e9f790f3
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /ws-vmess
+- name: node_42
+  type: vmess
+  server: nycqg19zkwacpm1b.v.3dns.vip
+  port: 443
+  uuid: f23bb427c1f94373876c2f43e9f790f3
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /ws-vmess
+- name: node_43
+  type: hysteria2
+  server: 31.76.80.69
+  port: 443
+  password: 6aab8efdf13945829ae3699c342be406
+  sni: fiproxy1.lockdwn.com
+  skip-cert-verify: false
+  udp: true
+- name: node_44
+  type: hysteria2
+  server: 31.76.27.23
+  port: 37009
+  password: Telegram-vpnjey
+  sni: de.vpnjey.store
+  skip-cert-verify: false
+  udp: true
+- name: node_45
+  type: hysteria2
+  server: 162.249.125.133
+  port: 443
+  password: QCgqi_I4EkV8UR-OgQ_tG4EnVTEVvIyR2GgRBzrIn2s
+  sni: hy2-new.aspidnet.xyz
+  skip-cert-verify: false
+  udp: true
+- name: node_46
+  type: hysteria2
+  server: 77.110.96.201
+  port: 443
+  password: Telegram
+  sni: se.vpnjey2.dpdns.org
+  skip-cert-verify: false
+  udp: true
+- name: node_47
+  type: hysteria2
+  server: 2.27.249.79
+  port: 443
+  password: cd74c0a406664a5bc0bac098220a2468
+  sni: nl1.sferavpn.pro
+  skip-cert-verify: false
+  udp: true
+- name: node_48
+  type: hysteria2
+  server: 2.27.59.206
+  port: 443
+  password: cd74c0a406664a5bc0bac098220a2468
+  sni: de1.sferavpn.pro
+  skip-cert-verify: false
+  udp: true
+- name: node_49
+  type: hysteria2
+  server: 144.31.49.138
+  port: 443
+  password: cd74c0a406664a5bc0bac098220a2468
+  sni: ru1.sferavpn.pro
+  skip-cert-verify: false
+  udp: true
+- name: node_50
+  type: hysteria2
+  server: 130.49.161.70
+  port: 443
+  password: p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR
+  sni: hy2.aspidnet.xyz
+  skip-cert-verify: false
+  udp: true
+- name: node_51
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
   network: tcp
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: node_70
-  type: vless
-  server: 185.126.67.52
-  port: 443
-  uuid: 8ff62004-b728-4be5-b7e9-5f5c85489921
-  encryption: none
-  flow: xtls-rprx-vision-udp443
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: www.vk.com
-- name: node_71
-  type: vless
-  server: townhouseusa1.purpl.su
-  port: 443
-  uuid: 988be430-813f-4174-b5ed-86fcebd7cda0
-  encryption: none
-  flow: xtls-rprx-vision
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: townhouseusa1.purpl.su
-- name: node_72
+- name: node_52
+  type: vless
+  server: www.visa.com.hk
+  port: 443
+  uuid: ff7cb8d1-b912-46e8-9686-a209c613c614
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: us-lax.xhs152.shop
+- name: node_53
+  type: trojan
+  server: 100.42.228.109
+  port: 443
+  password: BxceQaOe
+  udp: true
+  skip-cert-verify: true
+  sni: t.me/ripaojiedian
+- name: node_54
+  type: vless
+  server: 103.175.79.4
+  port: 443
+  uuid: b2141c97-76af-ff6f-839b-70a53e23aad9
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: download.nvidia.com
+- name: node_55
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_56
   type: vless
   server: 155.117.199.13
   port: 29893
@@ -758,7 +593,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: cdnjs.cloudflare.com
-- name: node_73
+- name: node_57
   type: vless
   server: 155.117.199.13
   port: 39399
@@ -769,51 +604,15 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: cdnjs.cloudflare.com
-- name: node_74
-  type: vless
-  server: 34.95.28.161
-  port: 443
-  uuid: 448b76ac-c636-4303-bec1-0b2c22afee0c
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
+- name: node_58
+  type: trojan
+  server: 167.68.4.199
+  port: 2053
+  password: Aimer
   udp: true
-  sni: www.cloudflare.com
-- name: node_75
-  type: vless
-  server: 147.45.42.218
-  port: 443
-  uuid: e3ec2866-96cd-4cc3-86c9-e7336ea2fbc2
-  encryption: none
-  flow: ''
-  tls: true
   skip-cert-verify: true
-  udp: true
-  sni: bz-fra-01.hello-there.ru
-- name: node_76
-  type: vless
-  server: 199.232.237.79
-  port: 443
-  uuid: 60a2998c-cd85-562e-a3fd-396e4925dd3a
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: turboo-server.com
-- name: node_77
-  type: vless
-  server: 162.159.140.116
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_78
+  sni: epge.muarua.filegear-sg.me
+- name: node_59
   type: vless
   server: 155.117.199.13
   port: 39211
@@ -824,195 +623,407 @@ proxies:
   skip-cert-verify: true
   udp: true
   sni: cdnjs.cloudflare.com
-- name: node_79
-  type: vmess
-  server: 188.114.96.19
-  port: 80
-  uuid: 479526cd-5011-43cf-a788-504da95e07c2
-  alterId: '0'
-  cipher: auto
-  network: ws
-  tls: false
-  skip-cert-verify: true
+- name: node_60
+  type: hysteria2
+  server: assets.gateway-stream.com
+  port: 52023
+  password: xbr3ppxk7rv068c4
+  sni: assets.gateway-stream.com
+  skip-cert-verify: false
   udp: true
-  ws-opts:
-    path: /
-- name: node_80
-  type: trojan
-  server: 104.26.14.137
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_81
+- name: node_61
   type: vless
-  server: 104.25.254.76
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  server: 162.159.39.157
+  port: 2087
+  uuid: 4859c235-2530-4062-9a0b-ea859cbbf861
   encryption: none
   flow: ''
   tls: true
   skip-cert-verify: true
   udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_82
+  sni: 1.proxy2.us.ci
+- name: node_62
+  type: hysteria2
+  server: assets.gateway-stream.com
+  port: 52021
+  password: xbr3ppxk7rv068c4
+  sni: assets.gateway-stream.com
+  skip-cert-verify: false
+  udp: true
+- name: node_63
+  type: vless
+  server: 64.176.60.226
+  port: 443
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: cdn8848.776676.xyz
+- name: node_64
+  type: vless
+  server: 162.159.45.175
+  port: 2053
+  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: fu.baiproxy.us.ci
+- name: node_65
   type: trojan
-  server: 104.18.152.161
+  server: www.ignitelimit.com
   port: 443
   password: humanity
   udp: true
   skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_83
-  type: trojan
-  server: 172.67.221.242
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_84
-  type: trojan
-  server: 104.20.6.134
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_85
-  type: trojan
-  server: 104.17.111.3
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_86
-  type: trojan
-  server: 104.21.8.107
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_87
-  type: trojan
-  server: 104.17.111.4
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_88
-  type: trojan
-  server: 104.18.152.210
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_89
+- name: node_66
   type: vmess
-  server: irc.jahanrocket.sbs
+  server: qtkdr8jxe3wefxjm.v.3dns.vip
   port: 443
-  uuid: 777c24bb-13ec-4c81-bb58-31344653e28c
+  uuid: f23bb427c1f94373876c2f43e9f790f3
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /ws-vmess
+- name: node_67
+  type: vmess
+  server: 93ucrn4i0pffuabk.v.3dns.vip
+  port: 443
+  uuid: f23bb427c1f94373876c2f43e9f790f3
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /ws-vmess
+- name: node_68
+  type: trojan
+  server: blackshadow.dpdns.org
+  port: 443
+  password: 2bcfbfba-b446-4ad5-93ad-72af9e008f61
+  udp: true
+  skip-cert-verify: true
+  sni: blackshadow.dpdns.org
+- name: node_69
+  type: vless
+  server: 94.140.0.40
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_70
+  type: vmess
+  server: i2psm3knof5qjjix.v.3dns.vip
+  port: 443
+  uuid: f23bb427c1f94373876c2f43e9f790f3
+  alterId: '0'
+  cipher: auto
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /ws-vmess
+- name: node_71
+  type: vless
+  server: 195.209.82.149
+  port: 443
+  uuid: 5a478129-3e7e-Fade-99d7-95e1da14fbdc
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: s28233.cdn.ngenix.net
+- name: node_72
+  type: vmess
+  server: 82.198.246.37
+  port: 180
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
   alterId: '0'
   cipher: auto
   network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-- name: node_90
+- name: node_73
   type: vless
-  server: 34.155.10.226
-  port: 443
-  uuid: d619964d-26d6-452d-9860-6f058f03ba8e
+  server: 192.200.160.50
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
   encryption: none
   flow: ''
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: www.cloudflare.com
-- name: node_91
+- name: node_74
   type: vless
-  server: 69.46.46.122
-  port: 443
-  uuid: e1b565f4-b997-4507-a472-af9f59ba6671
+  server: 109.176.239.50
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_75
+  type: vmess
+  server: 82.198.246.233
+  port: 180
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  alterId: '0'
+  cipher: aes-128-gcm
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_76
+  type: vless
+  server: 162.159.44.66
+  port: 2053
+  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
   encryption: none
   flow: ''
   tls: true
   skip-cert-verify: true
   udp: true
-  sni: web-production-d6cf5.up.railway.app
-- name: node_92
+  sni: fu.baiproxy.us.ci
+- name: node_77
   type: vless
-  server: 130.49.77.6
-  port: 443
-  uuid: b2141c97-76af-ff6f-839b-70a53e23aad9
+  server: 188.164.248.50
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
   encryption: none
   flow: ''
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: www.philips.com
-- name: node_93
+- name: node_78
+  type: vless
+  server: freev2.cloudflare.182682.xyz
+  port: 443
+  uuid: ff7cb8d1-b912-46e8-9686-a209c613c614
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: it-mil.xhs152.shop
+- name: node_79
+  type: vless
+  server: 188.164.248.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_80
+  type: vless
+  server: 188.164.248.40
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_81
+  type: vless
+  server: 162.159.44.100
+  port: 2087
+  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: fu.baiproxy.us.ci
+- name: node_82
+  type: vless
+  server: 162.159.44.198
+  port: 443
+  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: fu.baiproxy.us.ci
+- name: node_83
+  type: vless
+  server: 91.206.71.50
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_84
   type: vmess
-  server: 188.114.96.19
-  port: 80
-  uuid: aed88e79-5762-4d2f-86fa-f438f32a7654
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_85
+  type: vless
+  server: 172.64.79.241
+  port: 443
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: cdn8848.776676.xyz
+- name: node_86
+  type: vless
+  server: 162.159.237.80
+  port: 443
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: cdn8848.776676.xyz
+- name: node_87
+  type: vless
+  server: 20.6.12.145
+  port: 443
+  uuid: 06b65903-406d-4a41-8463-6fd5c0ee7798
+  encryption: none
+  flow: ''
+  tls: true
+  skip-cert-verify: true
+  udp: true
+  sni: sni.skylee4.cloudns.ch
+- name: node_88
+  type: vless
+  server: wangcai115.cloudflare.182682.xyz
+  port: 8880
+  uuid: 7890ce31-9a25-4fd4-90e7-80e5823ff510
+  encryption: none
+  flow: ''
+  tls: false
+  skip-cert-verify: true
+  udp: true
+  sni: Telegram-channel-WangCai2
+- name: node_89
+  type: vmess
+  server: v9.hdacd.com
+  port: 30809
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_90
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_91
+  type: vmess
+  server: 216.106.185.141
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
   alterId: '0'
   cipher: auto
-  network: ws
+  network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-  ws-opts:
-    path: /
+- name: node_92
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: node_93
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: node_94
-  type: vless
-  server: 35.220.207.209
-  port: 443
-  uuid: 90153538-ef08-4942-b8e1-41e7c523e659
-  encryption: none
-  flow: ''
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: www.cloudflare.com
 - name: node_95
-  type: vless
-  server: 34.92.19.135
-  port: 443
-  uuid: 75d38591-267e-4d89-98bc-164f25b50880
-  encryption: none
-  flow: ''
+  type: vmess
+  server: v8.hdacd.com
+  port: 30808
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: '2'
+  cipher: auto
+  network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: www.cloudflare.com
 - name: node_96
-  type: vless
-  server: 146.56.115.180
+  type: hysteria2
+  server: gta.internet-card.sbs
   port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
+  sni: gta.internet-card.sbs#俄罗斯
+  skip-cert-verify: false
   udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
 - name: node_97
-  type: vless
-  server: 34.51.231.250
+  type: vmess
+  server: 140.238.2.250
   port: 443
-  uuid: e4be912f-68e8-4d51-80a4-1342b646f8e0
-  encryption: none
-  flow: ''
+  uuid: 41a7089a-040b-4538-8b8d-010902405bde
+  alterId: '0'
+  cipher: auto
+  network: tcp
   tls: false
   skip-cert-verify: true
   udp: true
-  sni: www.cloudflare.com
 - name: node_98
   type: vmess
   server: ex1ogt73nzpqkac2.v.3dns.vip
@@ -1026,642 +1037,6 @@ proxies:
   udp: true
   ws-opts:
     path: /ws-vmess
-- name: node_99
-  type: vless
-  server: sperma.mervi.icu
-  port: 443
-  uuid: 9bbd487f-8f84-4ad7-b897-681c3f7d95dc
-  encryption: none
-  flow: xtls-rprx-vision
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: sperma.mervi.icu
-- name: node_100
-  type: vless
-  server: 130.211.240.128
-  port: 443
-  uuid: 31a40f42-4ad6-4a32-a760-71102b459584
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: www.cloudflare.com
-- name: node_101
-  type: vless
-  server: 104.21.4.201
-  port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: m16-3.cHiANG-maI2034.kDns.Fr
-- name: node_102
-  type: vless
-  server: 104.16.3.214
-  port: 443
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: cfvvv-ev1.pages.dev
-- name: node_103
-  type: trojan
-  server: 104.16.174.72
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_104
-  type: vless
-  server: 104.18.151.172
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_105
-  type: vless
-  server: 124.243.136.65
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_106
-  type: trojan
-  server: 104.18.152.103
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_107
-  type: vless
-  server: 35.201.181.122
-  port: 443
-  uuid: 22a0b0bd-1cd0-43fa-a7c3-73b24eae44e2
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: www.cloudflare.com
-- name: node_108
-  type: trojan
-  server: 104.17.177.143
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_109
-  type: trojan
-  server: 104.18.152.97
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_110
-  type: trojan
-  server: 104.16.73.213
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_111
-  type: trojan
-  server: 104.16.174.12
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_112
-  type: vless
-  server: 176.109.104.195
-  port: 9873
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: dl.google.com
-- name: node_113
-  type: vless
-  server: support.cloudflare.com
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: openai.asshole.us.ci
-- name: node_114
-  type: vless
-  server: 104.18.7.162
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_115
-  type: vless
-  server: 172.64.146.228
-  port: 443
-  uuid: 91d28760-ecf1-450b-9170-d310111a0e6d
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: edfc774f.69lover.site
-- name: node_116
-  type: trojan
-  server: 172.67.231.254
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.calmlunch.com
-- name: node_117
-  type: vless
-  server: 104.16.249.192
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_118
-  type: trojan
-  server: 104.16.174.34
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_119
-  type: trojan
-  server: 216.24.57.7
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_120
-  type: trojan
-  server: 162.159.254.191
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_121
-  type: vless
-  server: 104.18.166.129
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_122
-  type: vless
-  server: 172.64.83.52
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_123
-  type: vless
-  server: 104.16.10.104
-  port: 443
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: cfvvv-ev1.pages.dev
-- name: node_124
-  type: vless
-  server: 104.18.189.153
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_125
-  type: trojan
-  server: 104.18.152.229
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_126
-  type: vless
-  server: 199.232.78.170
-  port: 443
-  uuid: XpnTeam-6
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: ssl.fastly.com
-- name: node_127
-  type: vless
-  server: 104.16.105.6
-  port: 443
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 7bzzv.umtm.n70.hh.vavava.kdns.fr
-- name: node_128
-  type: trojan
-  server: 167.68.4.199
-  port: 2053
-  password: Aimer
-  udp: true
-  skip-cert-verify: true
-  sni: epge.muarua.filegear-sg.me
-- name: node_129
-  type: trojan
-  server: www.ignitelimit.com
-  port: 443
-  password: humanity
-  udp: true
-  skip-cert-verify: true
-  sni: www.ignitelimit.com
-- name: node_130
-  type: vless
-  server: 34.19.91.203
-  port: 443
-  uuid: 9d0395c0-016f-453e-b0be-fc66f1ee1d80
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: www.cloudflare.com
-- name: node_131
-  type: vless
-  server: 162.159.39.157
-  port: 2087
-  uuid: 4859c235-2530-4062-9a0b-ea859cbbf861
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: 1.proxy2.us.ci
-- name: node_132
-  type: vless
-  server: 195.209.82.149
-  port: 443
-  uuid: 5a478129-3e7e-Fade-99d7-95e1da14fbdc
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: s28233.cdn.ngenix.net
-- name: node_133
-  type: vless
-  server: 162.159.45.175
-  port: 2053
-  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: fu.baiproxy.us.ci
-- name: node_134
-  type: vmess
-  server: qtkdr8jxe3wefxjm.v.3dns.vip
-  port: 443
-  uuid: f23bb427c1f94373876c2f43e9f790f3
-  alterId: '0'
-  cipher: auto
-  network: ws
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  ws-opts:
-    path: /ws-vmess
-- name: node_135
-  type: trojan
-  server: blackshadow.dpdns.org
-  port: 443
-  password: 2bcfbfba-b446-4ad5-93ad-72af9e008f61
-  udp: true
-  skip-cert-verify: true
-  sni: blackshadow.dpdns.org
-- name: node_136
-  type: vmess
-  server: v9.hdacd.com
-  port: 30809
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_137
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_138
-  type: vless
-  server: 94.140.0.40
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_139
-  type: vless
-  server: 20.6.12.145
-  port: 443
-  uuid: 06b65903-406d-4a41-8463-6fd5c0ee7798
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: sni.skylee4.cloudns.ch
-- name: node_140
-  type: vless
-  server: 158.101.205.217
-  port: 62145
-  uuid: 8fb65472-5957-4f64-ba2d-b5812b2f155a
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_141
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_142
-  type: vless
-  server: wangcai115.cloudflare.182682.xyz
-  port: 8880
-  uuid: 7890ce31-9a25-4fd4-90e7-80e5823ff510
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: Telegram-channel-WangCai2
-- name: node_143
-  type: vmess
-  server: 82.198.246.37
-  port: 180
-  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
-  alterId: '0'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_144
-  type: vmess
-  server: 82.198.246.233
-  port: 180
-  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
-  alterId: '0'
-  cipher: aes-128-gcm
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_145
-  type: vless
-  server: 192.200.160.50
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_146
-  type: vless
-  server: 109.176.239.50
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_147
-  type: vless
-  server: 162.159.44.66
-  port: 2053
-  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: fu.baiproxy.us.ci
-- name: node_148
-  type: vless
-  server: 188.164.248.50
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_149
-  type: vless
-  server: 188.164.248.30
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_150
-  type: vmess
-  server: i2psm3knof5qjjix.v.3dns.vip
-  port: 443
-  uuid: f23bb427c1f94373876c2f43e9f790f3
-  alterId: '0'
-  cipher: auto
-  network: ws
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  ws-opts:
-    path: /ws-vmess
-- name: node_151
-  type: vless
-  server: 162.159.44.198
-  port: 443
-  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: fu.baiproxy.us.ci
-- name: node_152
-  type: vless
-  server: 188.164.248.40
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_153
-  type: vless
-  server: 162.159.44.100
-  port: 2087
-  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: fu.baiproxy.us.ci
-- name: node_154
-  type: vless
-  server: 91.206.71.50
-  port: 8880
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_155
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_156
-  type: vless
-  server: 103.175.79.4
-  port: 443
-  uuid: b2141c97-76af-ff6f-839b-70a53e23aad9
-  encryption: none
-  flow: ''
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  sni: download.nvidia.com
-- name: node_157
-  type: vmess
-  server: v8.hdacd.com
-  port: 30808
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: '2'
-  cipher: auto
-  network: tcp
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: node_158
-  type: vless
-  server: www.visa.com.hk
-  port: 443
-  uuid: ff7cb8d1-b912-46e8-9686-a209c613c614
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: us-lax.xhs152.shop
-- name: node_159
-  type: vless
-  server: 64.176.60.226
-  port: 443
-  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: cdn8848.776676.xyz
-- name: node_160
-  type: vless
-  server: freev2.cloudflare.182682.xyz
-  port: 443
-  uuid: ff7cb8d1-b912-46e8-9686-a209c613c614
-  encryption: none
-  flow: ''
-  tls: false
-  skip-cert-verify: true
-  udp: true
-  sni: it-mil.xhs152.shop
 proxy-groups:
 - name: 🚀 自动选择
   type: url-test
@@ -1767,68 +1142,6 @@ proxy-groups:
   - node_96
   - node_97
   - node_98
-  - node_99
-  - node_100
-  - node_101
-  - node_102
-  - node_103
-  - node_104
-  - node_105
-  - node_106
-  - node_107
-  - node_108
-  - node_109
-  - node_110
-  - node_111
-  - node_112
-  - node_113
-  - node_114
-  - node_115
-  - node_116
-  - node_117
-  - node_118
-  - node_119
-  - node_120
-  - node_121
-  - node_122
-  - node_123
-  - node_124
-  - node_125
-  - node_126
-  - node_127
-  - node_128
-  - node_129
-  - node_130
-  - node_131
-  - node_132
-  - node_133
-  - node_134
-  - node_135
-  - node_136
-  - node_137
-  - node_138
-  - node_139
-  - node_140
-  - node_141
-  - node_142
-  - node_143
-  - node_144
-  - node_145
-  - node_146
-  - node_147
-  - node_148
-  - node_149
-  - node_150
-  - node_151
-  - node_152
-  - node_153
-  - node_154
-  - node_155
-  - node_156
-  - node_157
-  - node_158
-  - node_159
-  - node_160
 - name: 🌍 手动选择
   type: select
   proxies: *id001
